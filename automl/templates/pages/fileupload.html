@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <title>Upload Dataset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-b from-purple-50 via-orange-50 to-transparent h-[91vh]">
+    <nav class="z-999">
+        <nav class="p-3 flex bg-white justify-between items-center fixed top-0 left-0 right-0 z-20 shadow-md ">
+            <a href="#" id="brand" class="flex gap-2 items-center flex-1">
+                <img class="object-cover max-w-12 max-h-12" src=" {% static './assets/logo.png' %}" alt="Logo">
+                <span class="text-lg font-medium font-display">AutoML</span>
+            </a>
+            <div id="nav-menu" class="hidden lg:flex gap-12">
+                <a class="font-medium hover:text-primary">Upload Your Dataset</a>
+            </div>
+            <div class="flex flex-1 justify-end">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="flex gap-2 items-center border border-gray-400 px-6 py-2 rounded-lg hover:bg-red-600 hover:text-white ">
+                        LOGOUT </span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            <div id="nav-dialog" class="hidden fixed z-10 md:hidden bg-white inset-0 p-3">
+                <div id="nav-bar" class="flex justify-between">
+                    <a href="#" id="brand" class="flex gap-2 items-center">
+                        <img class="object-cover max-w-12 max-h-12" src="{% static '/assets/asset 0.png'}" alt="Logo">
+                        <span class="text-lg font-medium font-display">AutoML</span>
+                    </a>
+                    <button class="p-2 md:hidden" onclick="handleMenu()">
+                        <i class="fa-solid fa-xmark text-gray-600"></i>
+                    </button>
+                </div>
+                <div class="mt-6">
+                    <a href="{%url 'logout'%}" class="font-medium m-3 p-3 block rounded-lg" id="logout">Logout</a>
+                </div>
+                <div class="h-[1px] bg-gray-300"></div>
+                <button class="mt-6 w-full flex gap-2 items-center  px-6 py-4 rounded-lg hover:bg-gray-50 ">
+                    <img src="{% static './assets/asset 1.png' %}" alt="">
+                    <span>Train Model</span>
+                </button>
+            </div>
+        </nav>
+    </nav>
+    <div class="flex items-center justify-center p-12 mt-20">
+        <div class="mx-auto w-full max-w-[550px] bg-white">
+            <form class="py-6 px-9" action="/api/upload" method="POST" id="formperu" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-5">
+                    <label for="label" class="mb-3 block text-base font-medium text-[#07074D]">
+                        Label Name :
+                    </label>
+                    <input type="text" name="label" id="label" placeholder="Price, etc." required
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                </div>
+                <div class="mb-6 pt-4">
+                    <label class="mb-5 block text-xl font-semibold text-[#07074D]">
+                        Upload File
+                    </label>
+                    <div class="mb-8">
+                        <input type="file" id="file" name="filessss" class="sr-only" accept=".csv " />
+                        <label for="file"
+                            class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
+                            <div>
+                                <span
+                                    class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D] hover:bg-blue-600 hover:transition-ease-in hover:text-white"
+                                    style="cursor: pointer;">
+                                    Browse
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="notify">
+                        <!-- Notification content will be inserted here -->
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="btn-load"
+                        class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                        Train DataSet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="popup-modal" tabindex="-1"
+        class="fixed hidden overflow-hidden inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-900 bg-opacity-50">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <button onclick="Close()" type="button"
+                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="popup-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center" id="model-dialog">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function Close() {
+            const maindialog = document.getElementById("popup-modal");
+            maindialog.classList.add("hidden");
+        }
+        document.getElementById('formperu').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+            const submitButton = document.getElementById('btn-load');
+            const responseDiv = document.getElementById('model-dialog');
+            const maindialog = document.getElementById("popup-modal");
+
+            submitButton.style.pointerEvents = "none";
+            submitButton.textContent = 'Training, Please wait...';
+
+            fetch(this.action, {
+                method: this.method,
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Display the server response in the response div
+                    console.log(data);
+                    maindialog.classList.remove("hidden")
+                    // Update the response div with server response
+                    responseDiv.innerHTML = `
+                    <div class="p-4 mt-4 rounded-md bg-green-50 text-green-700">
+                        <h1 class='mt-5 text-2xl'>Best Model: <span class='font-medium'>${data.best}<span></h1>
+                        <h1 class='mt-5 text-2xl'>Accuracy: <span class='font-medium'>${data.acc}<span></h1>
+                        <h1 class='my-5 text-2xl'>RMSE: <span class='font-medium'>${data.rmse}<span></h1>
+                        <a href="${data.loc}" download="model.pkl">
+                            <button class="rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                                Download Model
+                            </button>
+                        </a>
+                    </div>
+                `;
+                })
+                .catch(error => {
+                    responseDiv.innerHTML = `<div class="p-4 mt-4 rounded-md bg-red-50 text-red-700">An error occurred: ${error.message}</div>`;
+                })
+                .finally(() => {
+                    submitButton.style.pointerEvents = "auto";
+                    submitButton.textContent = 'Train DataSet';
+                });
+        });
+    </script>
+    <script>
+
+        document.getElementById('file').addEventListener('change', function () {
+            const fileInput = document.getElementById('file');
+            const notifyDiv = document.getElementById('notify');
+
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                const notifyContent = `
+                    <div class="mb-5 rounded-md bg-[#F5F7FB] py-4 px-8">
+                        <div class="flex items-center justify-between">
+                            <span class="truncate pr-3 text-base font-medium text-[#07074D]">
+                                ${fileName}
+                            </span>
+                            <button class="text-[#07074D]" onclick="removeFile()">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M0.279337 0.279338C0.651787 -0.0931121 1.25565 -0.0931121 1.6281 0.279338L9.72066 8.3719C10.0931 8.74435 10.0931 9.34821 9.72066 9.72066C9.34821 10.0931 8.74435 10.0931 8.3719 9.72066L0.279337 1.6281C-0.0931125 1.25565 -0.0931125 0.651788 0.279337 0.279338Z"
+                                        fill="currentColor" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M0.279337 9.72066C-0.0931125 9.34821 -0.0931125 8.74435 0.279337 8.3719L8.3719 0.279338C8.74435 -0.0931127 9.34821 -0.0931123 9.72066 0.279338C10.0931 0.651787 10.0931 1.25565 9.72066 1.6281L1.6281 9.72066C1.25565 10.0931 0.651787 10.0931 0.279337 9.72066Z"
+                                        fill="currentColor" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>`;
+                notifyDiv.innerHTML = notifyContent;
+            } else {
+                notifyDiv.innerHTML = 'No file uploaded';
+            }
+        });
+
+        function removeFile() {
+            document.getElementById('file').value = '';
+            document.getElementById('notify').innerHTML = '';
+        }
+    </script>
+</body>
+
+</html>

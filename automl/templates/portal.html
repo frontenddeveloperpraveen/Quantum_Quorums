@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Filing Website</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <style>
+        /* Custom styles here */
+    </style>
+</head>
+
+<body class="">
+    <!-- Navigation Bar -->
+    <nav class="p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h3 class="text-2xl text-gray-90">VIT Portal</h3>
+            </div>
+            <div>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gray-100">
+        <div class="container mx-auto py-8">
+            <div class="grid grid-cols-4 lg:grid-cols-12 gap-6 px-4">
+                <div class="col-span-4 lg:col-span-3">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <div class="flex flex-col items-center">
+                            <img src="data:image/jpeg;base64,{{ image }}" class=" w-32 h-32 bg-gray-300 rounded mb-4
+                                shrink-0">
+
+                            </img>
+                            <div class="flex gap-1 ">
+                                <span class="text-xl font-bold">Dr.</span>
+                                <h1 class="text-xl font-bold">{{name}}</h1>
+                            </div>
+                            <p>{{empid}}</p>
+                            <small>(Employee ID)</small>
+                            <p class="text-gray-700">{{designation}}</p>
+                            <p class="text-gray-900 text-sm p-1">{{email}}</p>
+                        </div>
+                        <hr class="my-6 border-t border-gray-300">
+                        <div class="flex flex-col">
+                            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Details</span>
+                            <ul>
+                                <li class="mb-2">Date of joining : {{doj}}</li>
+                                <li class="mb-2">School : {{school}}</li>
+                                <li class="mb-2">Type : {{emptype}}</li>
+                                <li class="mb-2">PAN Number : {{panno}}</li>
+                                <li class="mb-2">UAN Number : {{uanno}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-4 lg:col-span-9">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h2 class="text-xl font-bold mb-4">Documents Upload</h2>
+                        <form action="{% url 'Form Submit' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="control">
+                                <div
+                                    class="child flex-row items-center mb-5 lg:flex lg:justify-between lg:flex-wrap lg:h-10">
+                                    <div class="w-[90px] mb-2 lg:mb-0">
+                                        <label for="house-rent" name="house-rent">House Rent</label>
+                                    </div>
+                                    <div
+                                        class="number border border-gray-200 rounded px-2 py-1 focus-within:border focus-within:border-purple-500 my-5 lg:my-0">
+                                        <span>
+                                            ₹
+                                        </span><input min='1' required type="number" id='house-rent' name="house-price"
+                                            class=" [appearance:textfield]
+                                [&::-webkit-outer-spin-button]:appearance-none
+                                [&::-webkit-inner-spin-button]:appearance-none h-full border-none outline-none pl-2">
+                                    </div>
+                                    <div class="rounded py-1 ">
+                                        <input required type="file" class="rounded-sm " name="house-file">
+                                    </div>
+                                </div>
+                                <div
+                                    class="child flex-row items-center mb-5 lg:flex lg:justify-between lg:flex-wrap lg:h-10">
+                                    <div class="w-[90px] mb-2 lg:mb-0">
+                                        <label for="fees" name="fees">Fees</label>
+                                    </div>
+                                    <div
+                                        class="number border border-gray-200 rounded px-2 py-1 focus-within:border focus-within:border-purple-500 my-5 lg:my-0">
+                                        <span>
+                                            ₹
+                                        </span><input min='1' required type="number" id='fees' name="fees-price" class=" [appearance:textfield]
+                                [&::-webkit-outer-spin-button]:appearance-none
+                                [&::-webkit-inner-spin-button]:appearance-none h-full border-none outline-none pl-2">
+                                    </div>
+                                    <div class="rounded py-1 ">
+                                        <input required type="file" class="rounded-sm " name="fees-file">
+                                    </div>
+                                </div>
+                                <div
+                                    class="child flex-row items-center mb-5 lg:flex lg:justify-between lg:flex-wrap lg:h-10">
+                                    <div class="w-[90px] mb-2 lg:mb-0">
+                                        <label for="travel" name="travel">Travelling</label>
+                                    </div>
+                                    <div
+                                        class="number border border-gray-200 rounded px-2 py-1 focus-within:border focus-within:border-purple-500 my-5 lg:my-0">
+                                        <span>
+                                            ₹
+                                        </span><input min='1' required type="number" name="travel-price" id='travel'
+                                            class=" [appearance:textfield]
+                                [&::-webkit-outer-spin-button]:appearance-none
+                                [&::-webkit-inner-spin-button]:appearance-none h-full border-none outline-none pl-2">
+                                    </div>
+                                    <div class="rounded py-1 ">
+                                        <input required type="file" class="rounded-sm " name="travel-file">
+                                    </div>
+                                </div>
+                                <div
+                                    class="child flex-row items-center mb-5 lg:flex lg:justify-between lg:flex-wrap lg:h-10">
+                                    <div class="w-[90px] mb-2 lg:mb-0">
+                                        <label for="bus" name="bus">Bus fees</label>
+                                    </div>
+                                    <div
+                                        class="number border border-gray-200 rounded px-2 py-1 focus-within:border focus-within:border-purple-500 my-5 lg:my-0">
+                                        <span>
+                                            ₹
+                                        </span><input min='1' required type="number" id='bus' name="bus-price" class=" [appearance:textfield]
+                                [&::-webkit-outer-spin-button]:appearance-none
+                                [&::-webkit-inner-spin-button]:appearance-none h-full border-none outline-none pl-2">
+                                    </div>
+                                    <div class="rounded py-1 ">
+                                        <input required type="file" name="bus-file" class="rounded-sm  ">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="option">
+                                <div class="control mt-5">
+                                    <div class="flex items-center">
+                                        <input required id=" link-checkbox" type="checkbox" value=""
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+                                        <label for="link-checkbox"
+                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-700">I agree
+                                            with
+                                            the <a href="#"
+                                                class="text-blue-600 dark:text-blue-500 hover:underline">terms
+                                                and
+                                                conditions</a>.</label>
+                                    </div>
+                                    <button type="submit"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 border border-blue-700 rounded my-5">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

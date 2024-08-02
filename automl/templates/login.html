@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="text-gray-950">
+  <div class="min-h-screen flex items-center justify-center w-full">
+    <div class="bg-white shadow-lg rounded-lg px-8 py-6 max-w-md ">
+      {% if error %}
+      <p class='text-red-600 text-center'>{{error}}</p>
+      {% elif success %}
+      <p class='text-green-600 text-center'>{{success}}</p>
+      {% endif %}
+      <h1 class="text-2xl font-bold text-center mb-4 text-gray-950">
+        Hello Coder 👋!
+      </h1>
+      <form action="/api/login" method="post">
+        {% csrf_token %}
+        <div class="mb">
+          <label for="emp-id" class="block text-sm font-medium text-gray-700 text-gray-950 mb-2">Employee
+            ID</label>
+          <input type="text" id="emp-id" name="emp-id"
+            class="shadow-sm rounded-md w-full px-3 py-2 border text-gray-950 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Enter your ID" required />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700 text-gray-950 mb-2">Password</label>
+          <input type="password" id="password" name="pass"
+            class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Enter your password" required />
+          <a href="{% url 'Password reset'%}"
+            class="text-xs text-gray-950 hover:text-indigo-500 focus:outline-none ">Forget Password ?</a>
+        </div>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <input type="checkbox" id="remember"
+              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 focus:outline-none"
+              checked />
+            <label for="remember" class="ml-2 block text-sm text-gray-700 ">Remember me</label>
+          </div>
+        </div>
+        <button type="submit"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
