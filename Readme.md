@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Problem Statement: AutoML Tool for PreProd Corp
 
 ## Overview
