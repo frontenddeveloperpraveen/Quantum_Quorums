@@ -7,11 +7,11 @@ PreProd Corp requires a user-friendly, freely available UI for training AI/ML mo
 
 ## Contributor
 
-###Praveen KR
-###Thilak Raj
-###Niharika
-###Mukundan
-###Jhalak
+Praveen KR
+Thilak Raj
+Niharika
+Mukundan
+Jhalak
 
 
 ## Objectives
